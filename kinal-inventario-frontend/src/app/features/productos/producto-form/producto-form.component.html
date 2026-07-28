@@ -1,0 +1,55 @@
+<div class="page-header">
+  <div>
+    <span class="page-header__label">Inventario Maestro</span>
+    <h2 class="page-header__title">{{ modoEdicion ? "Editar producto" : "Nuevo producto" }}</h2>
+  </div>
+</div>
+
+<div class="glass-card rounded-2xl p-8 max-w-3xl">
+  <form [formGroup]="formulario" (ngSubmit)="guardar()" class="space-y-5">
+    <div class="form-field">
+      <label for="nombre">Nombre</label>
+      <input id="nombre" type="text" formControlName="nombre" placeholder="Nombre del producto" />
+      <small class="error" *ngIf="nombre.invalid && nombre.touched">El nombre debe tener al menos 2 caracteres</small>
+    </div>
+
+    <div class="form-field">
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" formControlName="descripcion" rows="2" placeholder="Descripción opcional"></textarea>
+    </div>
+
+    <div class="form-field">
+      <label for="categoriaId">Categoría</label>
+      <select id="categoriaId" formControlName="categoriaId">
+        <option [ngValue]="null" disabled>Selecciona una categoría</option>
+        <option *ngFor="let categoria of categorias" [ngValue]="categoria.id">{{ categoria.nombre }}</option>
+      </select>
+      <small class="error" *ngIf="categoriaId.invalid && categoriaId.touched">Debes seleccionar una categoría</small>
+    </div>
+
+    <div class="form-row">
+      <div class="form-field">
+        <label for="precio">Precio (Q)</label>
+        <input id="precio" type="number" step="0.01" formControlName="precio" />
+        <small class="error" *ngIf="precio.invalid && precio.touched">El precio debe ser mayor a 0</small>
+      </div>
+      <div class="form-field">
+        <label for="stock">Stock inicial</label>
+        <input id="stock" type="number" formControlName="stock" />
+      </div>
+      <div class="form-field">
+        <label for="stockMinimo">Stock mínimo</label>
+        <input id="stockMinimo" type="number" formControlName="stockMinimo" />
+      </div>
+    </div>
+
+    <small class="error" *ngIf="errorMensaje">{{ errorMensaje }}</small>
+
+    <div class="flex items-center gap-4 pt-4 border-t border-[rgba(255,255,255,0.05)]">
+      <button type="submit" class="btn-primary" [disabled]="cargando">
+        {{ cargando ? "Guardando..." : "Guardar" }}
+      </button>
+      <a routerLink="/productos" class="btn-ghost">Cancelar</a>
+    </div>
+  </form>
+</div>

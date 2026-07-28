@@ -1,0 +1,95 @@
+<div class="page-header">
+  <div>
+    <span class="page-header__label">Inventario Maestro</span>
+    <h2 class="page-header__title">Inventario de Productos</h2>
+    <p class="page-header__desc">Supervisa y gestiona el flujo de mercancías en tiempo real.</p>
+  </div>
+  <a *ngIf="authService.estaAutenticado()" routerLink="/productos/nuevo" class="btn-primary">
+    <span class="material-symbols-outlined">add</span>
+    Nuevo Producto
+  </a>
+</div>
+
+<p *ngIf="cargando" class="text-center py-20 text-[#b9cacb]">Cargando productos...</p>
+<p class="error" *ngIf="errorMensaje">{{ errorMensaje }}</p>
+
+<div *ngIf="!cargando && productos.length" class="space-y-6">
+  <div class="stats-grid">
+    <div class="glass-card stats-card">
+      <span class="stats-card__label">Total SKU</span>
+      <span class="stats-card__value text-[#7df4ff]">{{ productos.length }}</span>
+    </div>
+    <div class="glass-card stats-card">
+      <span class="stats-card__label">Stock Bajo</span>
+      <span class="stats-card__value text-[#ffb4ab]">{{ productos.filter(tieneStockBajo).length }}</span>
+    </div>
+    <div class="glass-card stats-card">
+      <span class="stats-card__label">Valor Total</span>
+      <span class="stats-card__value text-[#dae2fd]">{{ productos.reduce((s, p) => s + p.precio * p.stock, 0) | currency: "GTQ" }}</span>
+    </div>
+    <div class="glass-card stats-card">
+      <span class="stats-card__label">Stock Total</span>
+      <span class="stats-card__value text-[#00f0ff]">{{ productos.reduce((s, p) => s + p.stock, 0) }}</span>
+    </div>
+  </div>
+
+  <div class="glass-card rounded-2xl overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Categoría</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Estado</th>
+            <th *ngIf="authService.estaAutenticado()" class="text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let producto of productos">
+            <td>
+              <div class="flex items-center gap-3">
+                <div class="product-icon">
+                  <span class="material-symbols-outlined">inventory_2</span>
+                </div>
+                <div>
+                  <div class="font-semibold text-[#dae2fd]">{{ producto.nombre }}</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="badge badge--secondary">{{ producto.categoria?.nombre || "—" }}</span>
+            </td>
+            <td class="font-semibold">{{ producto.precio | currency: "GTQ" }}</td>
+            <td [class.text-[#ffb4ab]]="tieneStockBajo(producto)" class="font-semibold">
+              {{ producto.stock }} / mín {{ producto.stockMinimo }}
+            </td>
+            <td>
+              <span *ngIf="tieneStockBajo(producto)" class="flex items-center gap-2 text-xs text-[#ffb4ab]">
+                <span class="status-dot status-dot--red"></span>
+                Stock Bajo
+              </span>
+              <span *ngIf="!tieneStockBajo(producto)" class="flex items-center gap-2 text-xs text-[#00f0ff]">
+                <span class="status-dot status-dot--cyan"></span>
+                En Stock
+              </span>
+            </td>
+            <td *ngIf="authService.estaAutenticado()">
+              <div class="flex justify-center gap-2">
+                <a [routerLink]="['/productos/editar', producto.id]" class="btn-icon">
+                  <span class="material-symbols-outlined">edit</span>
+                </a>
+                <button (click)="eliminar(producto)" class="btn-icon hover:!text-[#ffb4ab] hover:!bg-[rgba(255,180,171,0.1)]">
+                  <span class="material-symbols-outlined">delete</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<p *ngIf="!cargando && !productos.length && !errorMensaje" class="text-center py-20 text-[#b9cacb]">No hay productos registrados todavía.</p>

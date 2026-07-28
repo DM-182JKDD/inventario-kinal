@@ -1,0 +1,30 @@
+<div class="page-header">
+  <div>
+    <span class="page-header__label">Inventario Maestro</span>
+    <h2 class="page-header__title">{{ modoEdicion ? "Editar categoría" : "Nueva categoría" }}</h2>
+  </div>
+</div>
+
+<div class="glass-card rounded-2xl p-8 max-w-xl">
+  <form [formGroup]="formulario" (ngSubmit)="guardar()" class="space-y-5">
+    <div class="form-field">
+      <label for="nombre">Nombre</label>
+      <input id="nombre" type="text" formControlName="nombre" placeholder="Nombre de la categoría" />
+      <small class="error" *ngIf="nombre.invalid && nombre.touched">El nombre debe tener al menos 2 caracteres</small>
+    </div>
+
+    <div class="form-field">
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" formControlName="descripcion" rows="3" placeholder="Descripción opcional"></textarea>
+    </div>
+
+    <small class="error" *ngIf="errorMensaje">{{ errorMensaje }}</small>
+
+    <div class="flex items-center gap-4 pt-4 border-t border-[rgba(255,255,255,0.05)]">
+      <button type="submit" class="btn-primary" [disabled]="cargando">
+        {{ cargando ? "Guardando..." : "Guardar" }}
+      </button>
+      <a routerLink="/categorias" class="btn-ghost">Cancelar</a>
+    </div>
+  </form>
+</div>

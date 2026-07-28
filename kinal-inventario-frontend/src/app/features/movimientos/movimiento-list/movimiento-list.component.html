@@ -1,0 +1,90 @@
+<div class="page-header">
+  <div>
+    <span class="page-header__label">Auditoría</span>
+    <h2 class="page-header__title">Historial de Movimientos</h2>
+    <p class="page-header__desc">Seguimiento detallado de ingresos y egresos de mercancía.</p>
+  </div>
+  <a *ngIf="authService.estaAutenticado()" routerLink="/movimientos/nuevo" class="btn-primary">
+    <span class="material-symbols-outlined">add</span>
+    Nuevo Movimiento
+  </a>
+</div>
+
+<p *ngIf="cargando" class="text-center py-20 text-[#b9cacb]">Cargando movimientos...</p>
+<p class="error" *ngIf="errorMensaje">{{ errorMensaje }}</p>
+
+<div *ngIf="!cargando && movimientos.length" class="space-y-6">
+  <div class="stats-grid">
+    <div class="glass-card stats-card">
+      <div class="flex justify-between items-start mb-2">
+        <span class="stats-card__label">Entradas</span>
+        <span class="material-symbols-outlined text-[#00f0ff]">trending_up</span>
+      </div>
+      <span class="stats-card__value text-[#00f0ff]">{{ movimientos.filter(m => m.tipo === 'ENTRADA').reduce((s, m) => s + m.cantidad, 0) }}</span>
+    </div>
+    <div class="glass-card stats-card">
+      <div class="flex justify-between items-start mb-2">
+        <span class="stats-card__label">Salidas</span>
+        <span class="material-symbols-outlined text-[#d0bcff]">trending_down</span>
+      </div>
+      <span class="stats-card__value text-[#d0bcff]">{{ movimientos.filter(m => m.tipo === 'SALIDA').reduce((s, m) => s + m.cantidad, 0) }}</span>
+    </div>
+    <div class="glass-card stats-card">
+      <div class="flex justify-between items-start mb-2">
+        <span class="stats-card__label">Total Movimientos</span>
+        <span class="material-symbols-outlined text-[#7df4ff]">sync_alt</span>
+      </div>
+      <span class="stats-card__value text-[#7df4ff]">{{ movimientos.length }}</span>
+    </div>
+  </div>
+
+  <div class="glass-card rounded-2xl overflow-hidden">
+    <div class="p-6 border-b border-[rgba(255,255,255,0.1)] flex items-center gap-4">
+      <h3 class="font-semibold text-lg text-[#dae2fd]">Línea de Tiempo</h3>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Tipo</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Motivo</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let mov of movimientos">
+            <td>
+              <div class="flex items-center gap-2">
+                <span [class.status-dot--cyan]="mov.tipo === 'ENTRADA'" [class.status-dot--violet]="mov.tipo === 'SALIDA'" class="status-dot"></span>
+                <span [class.text-[#00f0ff]]="mov.tipo === 'ENTRADA'" [class.text-[#d0bcff]]="mov.tipo === 'SALIDA'" class="font-semibold text-sm">
+                  {{ mov.tipo }}
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="flex items-center gap-3">
+                <div class="product-icon">
+                  <span class="material-symbols-outlined">inventory_2</span>
+                </div>
+                <div>
+                  <div class="font-semibold text-[#dae2fd]">{{ mov.producto?.nombre || "—" }}</div>
+                </div>
+              </div>
+            </td>
+            <td [class.text-[#00f0ff]]="mov.tipo === 'ENTRADA'" [class.text-[#d0bcff]]="mov.tipo === 'SALIDA'" class="font-bold">
+              {{ mov.tipo === 'ENTRADA' ? '+' : '-' }}{{ mov.cantidad }} unidades
+            </td>
+            <td class="text-[#b9cacb]">{{ mov.motivo || "—" }}</td>
+            <td>
+              <div class="text-sm text-[#dae2fd]">{{ mov.fecha | date: "dd/MM/yyyy HH:mm" }}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<p *ngIf="!cargando && !movimientos.length && !errorMensaje" class="text-center py-20 text-[#b9cacb]">No hay movimientos registrados todavía.</p>

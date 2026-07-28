@@ -1,0 +1,70 @@
+<div class="liquid-blob bg-[#00f0ff] w-[600px] h-[600px] -top-48 -left-48 animate-float"></div>
+<div class="liquid-blob bg-[#571bc1] w-[500px] h-[500px] bottom-0 -right-24 animate-float" style="animation-delay: -5s;"></div>
+
+<aside class="sidebar">
+  <div class="sidebar__brand">
+    <span class="material-symbols-outlined text-[#00dbe9]">inventory_2</span>
+    <div>
+      <h1 class="sidebar__title">Bodega Pro</h1>
+      <p class="sidebar__subtitle">Gestión de Almacén</p>
+    </div>
+  </div>
+
+  <nav class="sidebar__nav">
+    <a routerLink="/productos" routerLinkActive="sidebar__link--active" class="sidebar__link">
+      <span class="material-symbols-outlined">inventory_2</span>
+      <span>Productos</span>
+    </a>
+    <a routerLink="/categorias" routerLinkActive="sidebar__link--active" class="sidebar__link">
+      <span class="material-symbols-outlined">category</span>
+      <span>Categorías</span>
+    </a>
+    <a routerLink="/movimientos" routerLinkActive="sidebar__link--active" class="sidebar__link">
+      <span class="material-symbols-outlined">swap_horiz</span>
+      <span>Movimientos</span>
+    </a>
+  </nav>
+
+  <div class="sidebar__footer">
+    <div class="sidebar__user">
+      <div class="sidebar__avatar">
+        <span class="material-symbols-outlined">person</span>
+      </div>
+      <div>
+        <p class="text-sm font-semibold text-[#dae2fd]">{{ authService.estaAutenticado() ? 'Administrador' : 'Invitado' }}</p>
+        <p class="text-xs text-[#b9cacb]">Sede Central</p>
+      </div>
+    </div>
+    <button *ngIf="authService.estaAutenticado()" (click)="cerrarSesion()" class="btn-ghost w-full justify-center mt-3 text-sm">
+      <span class="material-symbols-outlined text-lg">logout</span>
+      Cerrar sesión
+    </button>
+    <a *ngIf="!authService.estaAutenticado()" routerLink="/login" class="btn-primary w-full justify-center mt-3 text-sm">
+      <span class="material-symbols-outlined text-lg">login</span>
+      Iniciar sesión
+    </a>
+  </div>
+</aside>
+
+<main class="main-content">
+  <router-outlet></router-outlet>
+</main>
+
+<nav class="mobile-nav">
+  <a routerLink="/productos" routerLinkActive="mobile-nav__link--active" class="mobile-nav__link">
+    <span class="material-symbols-outlined">inventory_2</span>
+    <span>Productos</span>
+  </a>
+  <a routerLink="/categorias" routerLinkActive="mobile-nav__link--active" class="mobile-nav__link">
+    <span class="material-symbols-outlined">category</span>
+    <span>Categorías</span>
+  </a>
+  <a routerLink="/movimientos" routerLinkActive="mobile-nav__link--active" class="mobile-nav__link">
+    <span class="material-symbols-outlined">swap_horiz</span>
+    <span>Movs</span>
+  </a>
+  <a routerLink="/login" class="mobile-nav__link">
+    <span class="material-symbols-outlined">account_circle</span>
+    <span>Perfil</span>
+  </a>
+</nav>

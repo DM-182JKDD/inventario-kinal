@@ -1,0 +1,100 @@
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 2rem;
+  gap: 1.5rem;
+}
+.page-header__label {
+  color: #00dbe9;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+.page-header__title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #dbfcff;
+  margin: 0;
+  line-height: 1.2;
+}
+.page-header__desc {
+  color: #b9cacb;
+  margin: 0.25rem 0 0;
+  max-width: 36rem;
+}
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.categoria-card {
+  padding: 2rem;
+  border-radius: 1rem;
+  min-height: 16rem;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.categoria-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(0, 240, 255, 0.3);
+  transform: translateY(-4px);
+}
+.categoria-card__icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  background: rgba(125, 244, 255, 0.1);
+  border: 1px solid rgba(125, 244, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7df4ff;
+  margin-bottom: 1.5rem;
+}
+.categoria-card__body {
+  flex: 1;
+}
+.categoria-card__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #dae2fd;
+  margin: 0 0 0.25rem;
+}
+.categoria-card__desc {
+  font-size: 0.875rem;
+  color: #b9cacb;
+  margin: 0;
+}
+.categoria-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.categoria-card__count {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #7df4ff;
+}
+.categoria-card__label {
+  font-size: 0.75rem;
+  color: #b9cacb;
+  margin-left: 0.25rem;
+}
+@media (max-width: 1024px) {
+  .bento-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .bento-grid { grid-template-columns: 1fr; }
+  .page-header { flex-direction: column; align-items: flex-start; }
+  .page-header__title { font-size: 1.5rem; }
+}

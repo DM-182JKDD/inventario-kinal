@@ -1,0 +1,42 @@
+<div class="page-header">
+  <div>
+    <span class="page-header__label">Inventario Maestro</span>
+    <h2 class="page-header__title">Categorías</h2>
+    <p class="page-header__desc">Organiza tu inventario mediante segmentación inteligente.</p>
+  </div>
+  <a *ngIf="authService.estaAutenticado()" routerLink="/categorias/nuevo" class="btn-primary">
+    <span class="material-symbols-outlined">add</span>
+    Nueva Categoría
+  </a>
+</div>
+
+<p *ngIf="cargando" class="text-center py-20 text-[#b9cacb]">Cargando categorías...</p>
+<p class="error" *ngIf="errorMensaje">{{ errorMensaje }}</p>
+
+<div *ngIf="!cargando && categorias.length" class="bento-grid">
+  <div *ngFor="let categoria of categorias" class="categoria-card glass-card">
+    <div class="categoria-card__icon">
+      <span class="material-symbols-outlined">category</span>
+    </div>
+    <div class="categoria-card__body">
+      <h3 class="categoria-card__title">{{ categoria.nombre }}</h3>
+      <p class="categoria-card__desc">{{ categoria.descripcion || "Sin descripción" }}</p>
+    </div>
+    <div class="categoria-card__footer">
+      <div>
+        <span class="categoria-card__count">{{ categoria._count?.productos ?? 0 }}</span>
+        <span class="categoria-card__label">Artículos</span>
+      </div>
+      <div *ngIf="authService.estaAutenticado()" class="flex gap-2">
+        <a [routerLink]="['/categorias/editar', categoria.id]" class="btn-icon">
+          <span class="material-symbols-outlined">edit</span>
+        </a>
+        <button (click)="eliminar(categoria)" class="btn-icon hover:!text-[#ffb4ab] hover:!bg-[rgba(255,180,171,0.1)]">
+          <span class="material-symbols-outlined">delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p *ngIf="!cargando && !categorias.length && !errorMensaje" class="text-center py-20 text-[#b9cacb]">No hay categorías registradas todavía.</p>

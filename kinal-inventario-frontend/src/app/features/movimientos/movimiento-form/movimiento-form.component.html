@@ -1,0 +1,50 @@
+<div class="page-header">
+  <div>
+    <span class="page-header__label">Auditoría</span>
+    <h2 class="page-header__title">Registrar movimiento</h2>
+  </div>
+</div>
+
+<div class="glass-card rounded-2xl p-8 max-w-xl">
+  <form [formGroup]="formulario" (ngSubmit)="guardar()" class="space-y-5">
+    <div class="form-field">
+      <label for="productoId">Producto</label>
+      <select id="productoId" formControlName="productoId">
+        <option [ngValue]="null" disabled>Selecciona un producto</option>
+        <option *ngFor="let producto of productos" [ngValue]="producto.id">
+          {{ producto.nombre }} (stock: {{ producto.stock }})
+        </option>
+      </select>
+      <small class="error" *ngIf="productoId.invalid && productoId.touched">Debes seleccionar un producto</small>
+    </div>
+
+    <div class="form-row">
+      <div class="form-field">
+        <label for="tipo">Tipo de movimiento</label>
+        <select id="tipo" formControlName="tipo">
+          <option value="ENTRADA">Entrada</option>
+          <option value="SALIDA">Salida</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label for="cantidad">Cantidad</label>
+        <input id="cantidad" type="number" formControlName="cantidad" />
+        <small class="error" *ngIf="cantidad.invalid && cantidad.touched">La cantidad debe ser mayor a 0</small>
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label for="motivo">Motivo (opcional)</label>
+      <input id="motivo" type="text" formControlName="motivo" placeholder="Ej: Donación, compra, uso en evento..." />
+    </div>
+
+    <small class="error" *ngIf="errorMensaje">{{ errorMensaje }}</small>
+
+    <div class="flex items-center gap-4 pt-4 border-t border-[rgba(255,255,255,0.05)]">
+      <button type="submit" class="btn-primary" [disabled]="cargando">
+        {{ cargando ? "Guardando..." : "Registrar" }}
+      </button>
+      <a routerLink="/movimientos" class="btn-ghost">Cancelar</a>
+    </div>
+  </form>
+</div>
