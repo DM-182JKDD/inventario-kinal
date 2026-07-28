@@ -1,4 +1,4 @@
-# 📦 Bodega Pro — Sistema de Inventario
+# Inventario Kinal — Sistema de Inventario
 
 Full-stack: **TypeScript + Node.js + Express + Prisma + PostgreSQL** (backend) + **Angular 22** (frontend).
 
@@ -210,7 +210,3 @@ Solución: (Explicación)
 </details>
 
 ---
-
-## Cambios Visuales
-
-<!-- Espacio para documentar futuros cambios visuales/frontend -->
